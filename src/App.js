@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import FeatureList from './FeatureList/FeatureList';
+import MainSummary from './MainSummary/MainSummary';
+import Header from './Header/Header';
 
 class App extends Component {
   constructor(props){
@@ -37,45 +39,12 @@ class App extends Component {
   }
 
   render() {
-    const summary = Object.keys(this.state.selected)
-          .map(key => <div className="summary__option" key={key}>
-            <div className="summary__option__label">{key}  </div>
-            <div className="summary__option__value">{this.state.selected[key].name}</div>
-            <div className="summary__option__cost">
-              { new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
-                  .format(this.state.selected[key].cost) }
-            </div>
-        </div>)
-
-    const total = Object.keys(this.state.selected)
-          .reduce((acc, curr) => acc + this.state.selected[curr].cost, 0);        
-
     return (
       <div className="App">
-        <header>
-          <h1>ELF Computing</h1>
-          <h3>Laptops</h3>
-          <h5>Customize your laptop</h5>  
-        </header>      
+        <Header />
         <main>
-
-          <section className="main__form">
-            <h3>TECH SPECS AND CUSTOMIZATIONS</h3>
-            <FeatureList features={this.props.features} onUpdate={this.updateFeature} />
-          </section>
-
-          <section className="main__summary">
-            <h3>NEW GREENLEAF 2018</h3>
-            {summary}
-            <div className="summary__total">
-              <div className="summary__total__label">Your Price: </div>
-              <div className="summary__total__value">
-              { new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
-                  .format(total) }
-              </div>
-            </div>
-          </section>
-
+          <FeatureList features={this.props.features} onUpdate={this.updateFeature} />
+          <MainSummary summary={this.state.selected} />
         </main>
       </div>
     );
